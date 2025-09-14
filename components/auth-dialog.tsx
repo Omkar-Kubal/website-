@@ -13,6 +13,17 @@ import { useAuthStore } from "@/lib/auth-store"
 import { toast } from "@/hooks/use-toast"
 import { Loader2, User } from "lucide-react"
 
+const GoogleIcon = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" {...props}>
+    <g>
+      <path fill="#EA4335" d="M12 5.5c1.53 0 2.91.59 3.97 1.55l2.87-2.87C17.07 2.5 14.7 1.5 12 1.5c-3.86 0-7.2 2.25-8.79 5.5l3.35 2.6C7.39 7.1 9.54 5.5 12 5.5z"/>
+      <path fill="#4285F4" d="M23.5 12.5c0-.93-.15-1.82-.42-2.67H12v4.5h6.48c-.29 1.54-1.14 2.85-2.4 3.72l3.12 2.4c1.81-1.69 2.8-4.17 2.8-7.95z"/>
+      <path fill="#FBBC05" d="M6.56 14.6l-3.35 2.6C4.71 20.5 8.05 22.5 12 22.5c2.7 0 5.07-1 6.8-2.7l-3.12-2.4c-.86.58-1.97.9-3.68.9-2.46 0-4.61-1.6-5.44-3.7z"/>
+      <path fill="#34A853" d="M12 22.5c3.86 0 7.2-2 8.79-5.3l-3.35-2.6c-.83 2.1-2.98 3.7-5.44 3.7-2.46 0-4.61-1.6-5.44-3.7l-3.35 2.6C4.8 20.5 8.14 22.5 12 22.5z"/>
+    </g>
+  </svg>
+)
+
 export function AuthDialog() {
   const [isOpen, setIsOpen] = useState(false)
   const [loginForm, setLoginForm] = useState({ email: "", password: "" })
@@ -159,7 +170,7 @@ export function AuthDialog() {
                 <div className="mt-4">
                   <Button
                     type="button"
-                    className="w-full bg-red-500 hover:bg-red-600 text-white"
+                    className="w-full bg-white hover:bg-gray-100 text-black border border-gray-300 flex items-center justify-center"
                     disabled={isLoading}
                     onClick={async () => {
                       const success = await loginWithGoogle();
@@ -178,6 +189,7 @@ export function AuthDialog() {
                       }
                     }}
                   >
+                    <GoogleIcon className="mr-2 h-5 w-5" />
                     Login with Google
                   </Button>
                 </div>
@@ -251,7 +263,7 @@ export function AuthDialog() {
                 <div className="mt-4">
                   <Button
                     type="button"
-                    className="w-full bg-red-500 hover:bg-red-600 text-white"
+                    className="w-full bg-white hover:bg-gray-100 text-black border border-gray-300 flex items-center justify-center"
                     disabled={isLoading}
                     onClick={async () => {
                       const success = await loginWithGoogle();
@@ -270,6 +282,7 @@ export function AuthDialog() {
                       }
                     }}
                   >
+                    <GoogleIcon className="mr-2 h-5 w-5" />
                     Sign Up with Google
                   </Button>
                 </div>
