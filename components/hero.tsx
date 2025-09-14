@@ -28,7 +28,7 @@ export function Hero() {
 <div className="relative z-10 text-center text-white w-full px-0">
   <div>
     <h1 className="text-[8rem] md:text-[12rem] font-serif font-bold mb-6 text-balance animate-fade-in-up text-white drop-shadow-[2px_2px_2px_rgba(0,0,0,1)] whitespace-nowrap overflow-x-auto">
-      RIVERA
+      VINCERE
     </h1>
   </div>
 </div>

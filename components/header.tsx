@@ -25,11 +25,11 @@ className="sticky top-0 z-50 w-full border-b bg-transparent backdrop-blur-xl ">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
-            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span className="text-primary-foreground font-bold text-lg">E</span>
+            <div className="h-8 w-8 rounded-lg bg-black flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <span className="text-primary-foreground font-bold text-lg">V</span>
             </div>
             <span className="font-serif font-bold text-xl group-hover:text-primary transition-colors duration-300 text-grey">
-              EliteStyle
+              VINCERE
             </span>
           </Link>
 
