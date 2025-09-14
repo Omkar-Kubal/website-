@@ -48,12 +48,7 @@ export function Footer() {
               <Link href="/accessories" className="text-muted-foreground hover:text-foreground transition-colors">
                 Accessories
               </Link>
-              <Link href="/sale" className="text-muted-foreground hover:text-foreground transition-colors">
-                Sale
-              </Link>
-              <Link href="/new-arrivals" className="text-muted-foreground hover:text-foreground transition-colors">
-                New Arrivals
-              </Link>
+  
             </nav>
           </div>
 
