@@ -17,6 +17,8 @@ const allProducts = [
     isOnSale: true,
     rating: 4.8,
     reviews: 124,
+    sizes: ["S", "M", "L", "XL"],
+    colors: ["White", "Black", "Gray"],
   },
   {
     id: 2,
@@ -27,6 +29,8 @@ const allProducts = [
     isOnSale: false,
     rating: 4.9,
     reviews: 89,
+    sizes: ["XS", "S", "M", "L"],
+    colors: ["Black", "Navy"],
   },
   {
     id: 3,
@@ -37,6 +41,8 @@ const allProducts = [
     isOnSale: false,
     rating: 4.7,
     reviews: 156,
+    sizes: ["M", "L", "XL", "XXL"],
+    colors: ["Blue", "Black"],
   },
   {
     id: 4,
@@ -48,6 +54,8 @@ const allProducts = [
     isOnSale: true,
     rating: 4.6,
     reviews: 73,
+    sizes: ["XS", "S", "M"],
+    colors: ["White", "Beige"],
   },
   {
     id: 5,
@@ -58,6 +66,8 @@ const allProducts = [
     isOnSale: false,
     rating: 4.8,
     reviews: 92,
+    sizes: [],
+    colors: ["Brown", "Black"],
   },
   {
     id: 6,
@@ -68,32 +78,108 @@ const allProducts = [
     isOnSale: false,
     rating: 4.5,
     reviews: 67,
+    sizes: ["S", "M", "L"],
+    colors: ["Gray", "Navy", "Beige"],
   },
 ]
 
+import { FilterState } from "@/app/products/page"
+
 interface ProductGridProps {
   category?: string
+  filters: FilterState
+  updateFilters: (filters: Partial<FilterState>) => void
 }
 
-export function ProductGrid({ category }: ProductGridProps) {
-  const [sortBy, setSortBy] = useState("featured")
+export function ProductGrid({ category, filters, updateFilters }: ProductGridProps) {
   const [products] = useState(allProducts)
 
-  // Filter products by category if provided
-  const filteredProducts = category
-    ? products.filter((product) => {
-        if (category === "men") return product.category.toLowerCase().includes("men")
-        if (category === "women") return product.category.toLowerCase().includes("women")
-        if (category === "accessories") return product.category.toLowerCase().includes("accessories")
-        return true
+  // Apply all filters
+  let filteredProducts = products
+  
+  // Filter by search term
+  if (filters.searchTerm) {
+    const searchLower = filters.searchTerm.toLowerCase()
+    filteredProducts = filteredProducts.filter(product => 
+      product.name.toLowerCase().includes(searchLower) || 
+      product.category.toLowerCase().includes(searchLower)
+    )
+  }
+  
+  // Filter by category
+  if (category) {
+    filteredProducts = filteredProducts.filter((product) => {
+      if (category === "men") return product.category.toLowerCase().includes("men")
+      if (category === "women") return product.category.toLowerCase().includes("women")
+      if (category === "accessories") return product.category.toLowerCase().includes("accessories")
+      return true
+    })
+  }
+  
+  // Filter by selected categories
+  if (filters.selectedCategories.length > 0) {
+    filteredProducts = filteredProducts.filter(product => {
+      // Map product categories to match the filter categories format
+      const productCategoryId = product.category.toLowerCase().replace(/[^a-z0-9]/g, '-')
+      return filters.selectedCategories.some(cat => {
+        // Check if the category matches or is a parent category
+        if (cat === 'mens-tops' || cat === 'mens-bottoms') {
+          return product.category.toLowerCase().includes('men')
+        }
+        if (cat === 'womens-tops' || cat === 'womens-bottoms' || cat === 'womens-dresses') {
+          return product.category.toLowerCase().includes('women')
+        }
+        return productCategoryId.includes(cat)
       })
-    : products
+    })
+  }
+  
+  // Filter by price range
+  filteredProducts = filteredProducts.filter(product => 
+    product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1]
+  )
+  
+  // Filter by sizes
+  if (filters.selectedSizes.length > 0) {
+    filteredProducts = filteredProducts.filter(product => 
+      // If the product has sizes, check if any of the selected sizes match
+      product.sizes && product.sizes.some(size => filters.selectedSizes.includes(size))
+    )
+  }
+  
+  // Filter by colors
+  if (filters.selectedColors.length > 0) {
+    filteredProducts = filteredProducts.filter(product => 
+      // If the product has colors, check if any of the selected colors match
+      product.colors && product.colors.some(color => filters.selectedColors.includes(color))
+    )
+  }
+  
+  // Apply sorting
+  filteredProducts = [...filteredProducts].sort((a, b) => {
+    switch (filters.sortBy) {
+      case 'price-low':
+        return a.price - b.price
+      case 'price-high':
+        return b.price - a.price
+      case 'rating':
+        return b.rating - a.rating
+      case 'newest':
+        // In a real app, you would sort by date
+        return b.id - a.id
+      default: // featured
+        return 0
+    }
+  })
 
   return (
     <div>
       <div className="flex justify-between items-center mb-8 p-4 glass rounded-xl backdrop-blur-xl">
         <p className="text-muted-foreground font-medium">Showing {filteredProducts.length} products</p>
-        <Select value={sortBy} onValueChange={setSortBy}>
+        <Select 
+          value={filters.sortBy} 
+          onValueChange={(value) => updateFilters({ sortBy: value })}
+        >
           <SelectTrigger className="w-48 glass border-white/20">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>

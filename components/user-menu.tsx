@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link"
-import { User, ShoppingBag, Heart, LogOut, ChevronDown, Shield } from "lucide-react"
+import { User, Settings, ShoppingBag, Heart, LogOut, ChevronDown, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -95,7 +95,12 @@ export function UserMenu() {
             Wishlist
           </Link>
         </DropdownMenuItem>
-
+        <DropdownMenuItem asChild>
+          <Link href="/account/settings" className="flex items-center">
+            <Settings className="mr-2 h-4 w-4" />
+            Settings
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout} className="text-destructive">
           <LogOut className="mr-2 h-4 w-4" />

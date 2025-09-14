@@ -1,9 +1,34 @@
+"use client"
+
+import { useState } from "react"
 import { Header } from "@/components/header"
 import { ProductGrid } from "@/components/product-grid"
 import { ProductFilters } from "@/components/product-filters"
 import { Footer } from "@/components/footer"
 
+export interface FilterState {
+  priceRange: [number, number]
+  selectedCategories: string[]
+  selectedSizes: string[]
+  selectedColors: string[]
+  searchTerm: string
+  sortBy: string
+}
+
 export default function ProductsPage() {
+  const [filters, setFilters] = useState<FilterState>({
+    priceRange: [0, 500],
+    selectedCategories: [],
+    selectedSizes: [],
+    selectedColors: [],
+    searchTerm: "",
+    sortBy: "featured"
+  })
+
+  const updateFilters = (newFilters: Partial<FilterState>) => {
+    setFilters(prev => ({ ...prev, ...newFilters }))
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -15,10 +40,16 @@ export default function ProductsPage() {
 
         <div className="flex flex-col lg:flex-row gap-8">
           <aside className="lg:w-64 flex-shrink-0">
-            <ProductFilters />
+            <ProductFilters 
+              filters={filters} 
+              updateFilters={updateFilters} 
+            />
           </aside>
           <div className="flex-1">
-            <ProductGrid />
+            <ProductGrid 
+              filters={filters}
+              updateFilters={updateFilters}
+            />
           </div>
         </div>
       </main>
