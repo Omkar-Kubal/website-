@@ -7,7 +7,7 @@ import { Heart, ShoppingBag, Star, Shirt, Scale, Camera } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
-import { VirtualTryOn } from "@/components/virtual-try-on"
+import  VirtualTryOn from "@/components/virtual-try-on"
 import { useStore } from "@/lib/store"
 import { toast } from "@/hooks/use-toast"
 
