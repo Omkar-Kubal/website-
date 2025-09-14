@@ -79,28 +79,28 @@ export function Footer() {
             </nav>
           </div>
 
-          {/* Newsletter */}
-          <div className="space-y-4">
-            <h3 className="font-semibold">Stay Updated</h3>
-            <p className="text-muted-foreground text-sm">
-              Subscribe to get special offers, free giveaways, and exclusive deals.
-            </p>
-            <div className="flex space-x-2">
-              <Input placeholder="Enter your email" className="flex-1" />
-              <Button>Subscribe</Button>
+          {/* company*/}
+         <div className="space-y-4">
+            <h3 className="font-semibold">Company</h3>
+            <div className="space-y-2 text-sm">
+              <Link href="/about" className="block text-muted-foreground hover:text-primary transition-colors">
+                About Us
+              </Link>
+             
+      
+              <Link href="/privacy" className="block text-muted-foreground hover:text-primary transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="block text-muted-foreground hover:text-primary transition-colors">
+                Terms of Service
+              </Link>
             </div>
           </div>
         </div>
-
         <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
           <p>&copy; 2024 EliteStyle. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
-            <Link href="/privacy" className="hover:text-foreground transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="hover:text-foreground transition-colors">
-              Terms of Service
-            </Link>
+            
           </div>
         </div>
       </div>
