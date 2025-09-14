@@ -59,6 +59,14 @@ className="sticky top-0 z-50 w-full border-b bg-transparent backdrop-blur-xl ">
             >
               Explore
             </Link>
+
+               <Link
+                  href="/trynow"
+                  className="text-foreground hover:text-primary transition-colors py-2 font-medium"
+                >
+                  Try Now
+                </Link>
+                
           </nav>
 
           {/* Search Bar */}
@@ -131,6 +139,14 @@ className="sticky top-0 z-50 w-full border-b bg-transparent backdrop-blur-xl ">
                 >
                   Explore
                 </Link>
+
+                 <Link
+                  href="/trynow"
+                  className="text-foreground hover:text-primary transition-colors py-2 font-medium"
+                >
+                  Try Now
+                </Link>
+
                 <Link href="/account" className="text-foreground hover:text-primary transition-colors py-2 font-medium">
                   My Account
                 </Link>
