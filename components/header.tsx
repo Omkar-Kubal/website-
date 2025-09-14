@@ -19,7 +19,8 @@ export function Header() {
   const { isAuthenticated } = useAuthStore()
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b glass backdrop-blur-xl supports-[backdrop-filter]:bg-background/80">
+    <header 
+className="sticky top-0 z-50 w-full border-b bg-transparent backdrop-blur-xl ">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -27,7 +28,7 @@ export function Header() {
             <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
               <span className="text-primary-foreground font-bold text-lg">E</span>
             </div>
-            <span className="font-serif font-bold text-xl group-hover:text-primary transition-colors duration-300">
+            <span className="font-serif font-bold text-xl group-hover:text-primary transition-colors duration-300 text-grey">
               EliteStyle
             </span>
           </Link>
@@ -36,19 +37,19 @@ export function Header() {
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               href="/men"
-              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 font-medium"
+              className="text-grey hover:text-primary transition-all duration-300 hover:scale-105 font-medium"
             >
               Men
             </Link>
             <Link
               href="/women"
-              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 font-medium"
+              className="text-grey hover:text-primary transition-all duration-300 hover:scale-105 font-medium"
             >
               Women
             </Link>
             <Link
               href="/accessories"
-              className="text-foreground hover:text-primary transition-all duration-300 hover:scale-105 font-medium"
+              className="text-grey hover:text-primary transition-all duration-300 hover:scale-105 font-medium"
             >
               Accessories
             </Link>
@@ -63,7 +64,7 @@ export function Header() {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 glass border-white/20 focus:border-primary/50 transition-all duration-300"
+                className="pl-10 glass border-grey/20 focus:border-primary/50 transition-all duration-300 text-grey placeholder:text-grey"
               />
             </div>
             <AdvancedSearch />
@@ -90,7 +91,7 @@ export function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-white/20 py-4 glass">
+          <div className="md:hidden border-t border-grey/20 py-4 glass">
             <div className="flex flex-col space-y-4">
               <div className="flex gap-2">
                 <div className="relative flex-1">
@@ -100,7 +101,7 @@ export function Header() {
                     placeholder="Search products..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 glass border-white/20"
+                    className="pl-10 glass border-grey/20"
                   />
                 </div>
                 <AdvancedSearch />
