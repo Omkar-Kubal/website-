@@ -11,10 +11,10 @@ export function Footer() {
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">E</span>
+              <div className="h-8 w-8 rounded-lg bg-black flex items-center justify-center">
+                <span className="text-primary-foreground font-bold text-lg">V</span>
               </div>
-              <span className="font-bold text-xl">EliteStyle</span>
+              <span className="font-bold text-xl">VINCERE</span>
             </div>
             <p className="text-muted-foreground text-sm">
               Premium fashion for the modern lifestyle. Discover quality, style, and elegance in every piece.
@@ -98,7 +98,7 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
-          <p>&copy; 2024 EliteStyle. All rights reserved.</p>
+          <p>&copy; 2024 VINCERE. All rights reserved.</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             
           </div>

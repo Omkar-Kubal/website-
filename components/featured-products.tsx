@@ -70,7 +70,7 @@ export function FeaturedProducts() {
           <Button
             asChild
             size="lg"
-            className="bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl px-8 py-3"
+            className="bg-black text-primary-foreground hover:bg-primary/90 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl px-8 py-3"
           >
             <Link href="/products">View All Products</Link>
           </Button>
