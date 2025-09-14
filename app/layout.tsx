@@ -6,6 +6,7 @@ import { ProductComparison } from "@/components/product-comparison"
 import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 import { Suspense } from "react"
+import { PageLoader } from "@/components/page-loader"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,6 +38,7 @@ export default function RootLayout({
         <Suspense fallback={null}>
           {children}
           <ProductComparison />
+             <PageLoader />
           <Toaster />
         </Suspense>
         <Analytics />
