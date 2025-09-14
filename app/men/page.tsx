@@ -31,7 +31,7 @@ export default function MenPage() {
                 <ProductFilters category="men" />
               </aside>
               <div className="flex-1 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
-                <ProductGrid category="men" />
+                <ProductGrid category="men" filterByGender={true} />
               </div>
             </div>
           </div>

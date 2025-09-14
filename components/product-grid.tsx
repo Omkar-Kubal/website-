@@ -73,21 +73,40 @@ const allProducts = [
 
 interface ProductGridProps {
   category?: string
+  filterByGender?: boolean
 }
 
-export function ProductGrid({ category }: ProductGridProps) {
+export function ProductGrid({ category, filterByGender = false }: ProductGridProps) {
   const [sortBy, setSortBy] = useState("featured")
   const [products] = useState(allProducts)
 
   // Filter products by category if provided
-  const filteredProducts = category
-    ? products.filter((product) => {
-        if (category === "men") return product.category.toLowerCase().includes("men")
-        if (category === "women") return product.category.toLowerCase().includes("women")
-        if (category === "accessories") return product.category.toLowerCase().includes("accessories")
-        return true
+  let filteredProducts = products
+  
+  if (category) {
+    filteredProducts = filteredProducts.filter((product) => {
+      if (category === "men") return product.category.toLowerCase().includes("men")
+      if (category === "women") return product.category.toLowerCase().includes("women")
+      if (category === "accessories") return product.category.toLowerCase().includes("accessories")
+      return true
+    })
+  }
+  
+  // Additional filter to ensure only gender-specific products are shown when filterByGender is true
+  if (filterByGender && category) {
+    // For men's page, exclude women's products
+    if (category === "men") {
+      filteredProducts = filteredProducts.filter(product => !product.category.toLowerCase().includes("women"))
+    }
+    // For women's page, exclude men's products but not women's
+    else if (category === "women") {
+      filteredProducts = filteredProducts.filter(product => {
+        const lowerCategory = product.category.toLowerCase();
+        // Keep products with 'women' in category, exclude those with 'men' but not 'women'
+        return lowerCategory.includes("women") || !lowerCategory.includes("men");
       })
-    : products
+    }
+  }
 
   return (
     <div>
