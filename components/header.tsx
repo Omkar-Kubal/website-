@@ -53,6 +53,12 @@ className="sticky top-0 z-50 w-full border-b bg-transparent backdrop-blur-xl ">
             >
               Accessories
             </Link>
+             <Link
+              href="/explore"
+              className="text-grey hover:text-primary transition-all duration-300 hover:scale-105 font-medium"
+            >
+              Explore
+            </Link>
           </nav>
 
           {/* Search Bar */}
@@ -118,6 +124,12 @@ className="sticky top-0 z-50 w-full border-b bg-transparent backdrop-blur-xl ">
                   className="text-foreground hover:text-primary transition-colors py-2 font-medium"
                 >
                   Accessories
+                </Link>
+                <Link
+                  href="/explore"
+                  className="text-foreground hover:text-primary transition-colors py-2 font-medium"
+                >
+                  Explore
                 </Link>
                 <Link href="/account" className="text-foreground hover:text-primary transition-colors py-2 font-medium">
                   My Account
