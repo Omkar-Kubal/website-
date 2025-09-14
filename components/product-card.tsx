@@ -21,6 +21,8 @@ interface Product {
   isOnSale: boolean
   rating: number
   reviews: number
+  sizes?: string[]
+  colors?: string[]
 }
 
 interface ProductCardProps {

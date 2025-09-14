@@ -45,22 +45,11 @@ export const useAuthStore = create<AuthState>()(
           }
           
           const provider = new GoogleAuthProvider();
-          
-          // Add client ID from environment variables
-          const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-          if (clientId) {
-            provider.setCustomParameters({
-              'client_id': clientId
-            });
-          } else {
-            console.warn("Google Client ID not found in environment variables");
-          }
-          
           // Add scopes for better user profile access
           provider.addScope('email');
           provider.addScope('profile');
           
-          console.log("Attempting Google sign-in with configured client ID...");
+          console.log("Attempting Google sign-in...");
           const result = await signInWithPopup(auth, provider);
           const user = result.user;
           
@@ -93,8 +82,6 @@ export const useAuthStore = create<AuthState>()(
             console.error("Popup request was cancelled");
           } else if (error.code === 'auth/network-request-failed') {
             console.error("Network request failed");
-          } else if (error.code === 'auth/configuration-not-found') {
-            console.error("Firebase OAuth configuration is missing or incorrect");
           }
           
           set({ isLoading: false });

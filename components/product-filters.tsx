@@ -1,24 +1,22 @@
 "use client"
 
-import { useState } from "react"
+import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Search } from "lucide-react"
+import { FilterState } from "@/app/products/page"
 
 interface ProductFiltersProps {
   category?: string
+  filters: FilterState
+  updateFilters: (filters: Partial<FilterState>) => void
 }
 
-export function ProductFilters({ category }: ProductFiltersProps) {
-  const [priceRange, setPriceRange] = useState([0, 500])
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([])
-  const [selectedColors, setSelectedColors] = useState<string[]>([])
-
+export function ProductFilters({ category, filters, updateFilters }: ProductFiltersProps) {
   const categories = [
     { id: "mens-tops", label: "Men's Tops", count: 24 },
     { id: "mens-bottoms", label: "Men's Bottoms", count: 18 },
@@ -40,33 +38,42 @@ export function ProductFilters({ category }: ProductFiltersProps) {
 
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
     if (checked) {
-      setSelectedCategories([...selectedCategories, categoryId])
+      updateFilters({ selectedCategories: [...filters.selectedCategories, categoryId] })
     } else {
-      setSelectedCategories(selectedCategories.filter((id) => id !== categoryId))
+      updateFilters({ 
+        selectedCategories: filters.selectedCategories.filter((id) => id !== categoryId) 
+      })
     }
   }
 
   const handleSizeChange = (size: string, checked: boolean) => {
     if (checked) {
-      setSelectedSizes([...selectedSizes, size])
+      updateFilters({ selectedSizes: [...filters.selectedSizes, size] })
     } else {
-      setSelectedSizes(selectedSizes.filter((s) => s !== size))
+      updateFilters({ 
+        selectedSizes: filters.selectedSizes.filter((s) => s !== size) 
+      })
     }
   }
 
   const handleColorChange = (color: string, checked: boolean) => {
     if (checked) {
-      setSelectedColors([...selectedColors, color])
+      updateFilters({ selectedColors: [...filters.selectedColors, color] })
     } else {
-      setSelectedColors(selectedColors.filter((c) => c !== color))
+      updateFilters({ 
+        selectedColors: filters.selectedColors.filter((c) => c !== color) 
+      })
     }
   }
 
   const clearFilters = () => {
-    setPriceRange([0, 500])
-    setSelectedCategories([])
-    setSelectedSizes([])
-    setSelectedColors([])
+    updateFilters({
+      priceRange: [0, 500],
+      selectedCategories: [],
+      selectedSizes: [],
+      selectedColors: [],
+      searchTerm: ""
+    })
   }
 
   return (
@@ -83,6 +90,24 @@ export function ProductFilters({ category }: ProductFiltersProps) {
         </Button>
       </div>
 
+      {/* Search */}
+      <Card className="glass border-white/20 backdrop-blur-xl">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm font-medium flex items-center">
+            <Search className="h-4 w-4 mr-2" />
+            Search Products
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Input
+            placeholder="Search products..."
+            value={filters.searchTerm}
+            onChange={(e) => updateFilters({ searchTerm: e.target.value })}
+            className="glass border-white/20"
+          />
+        </CardContent>
+      </Card>
+
       {/* Price Range */}
       <Card className="glass border-white/20 backdrop-blur-xl">
         <Collapsible defaultOpen>
@@ -97,10 +122,16 @@ export function ProductFilters({ category }: ProductFiltersProps) {
           <CollapsibleContent>
             <CardContent>
               <div className="space-y-4">
-                <Slider value={priceRange} onValueChange={setPriceRange} max={500} step={10} className="w-full" />
+                <Slider 
+                  value={filters.priceRange} 
+                  onValueChange={(value) => updateFilters({ priceRange: value as [number, number] })} 
+                  max={500} 
+                  step={10} 
+                  className="w-full" 
+                />
                 <div className="flex justify-between text-sm text-muted-foreground font-medium">
-                  <span>${priceRange[0]}</span>
-                  <span>${priceRange[1]}</span>
+                  <span>${filters.priceRange[0]}</span>
+                  <span>${filters.priceRange[1]}</span>
                 </div>
               </div>
             </CardContent>
@@ -126,7 +157,7 @@ export function ProductFilters({ category }: ProductFiltersProps) {
                   <div key={cat.id} className="flex items-center space-x-2 group">
                     <Checkbox
                       id={cat.id}
-                      checked={selectedCategories.includes(cat.id)}
+                      checked={filters.selectedCategories.includes(cat.id)}
                       onCheckedChange={(checked) => handleCategoryChange(cat.id, checked as boolean)}
                       className="group-hover:scale-110 transition-transform duration-200"
                     />
@@ -160,7 +191,7 @@ export function ProductFilters({ category }: ProductFiltersProps) {
                   <div key={size} className="flex items-center space-x-2 group">
                     <Checkbox
                       id={size}
-                      checked={selectedSizes.includes(size)}
+                      checked={filters.selectedSizes.includes(size)}
                       onCheckedChange={(checked) => handleSizeChange(size, checked as boolean)}
                       className="group-hover:scale-110 transition-transform duration-200"
                     />
@@ -193,7 +224,7 @@ export function ProductFilters({ category }: ProductFiltersProps) {
                   <div key={color.name} className="flex items-center space-x-2 group">
                     <Checkbox
                       id={color.name}
-                      checked={selectedColors.includes(color.name)}
+                      checked={filters.selectedColors.includes(color.name)}
                       onCheckedChange={(checked) => handleColorChange(color.name, checked as boolean)}
                       className="group-hover:scale-110 transition-transform duration-200"
                     />
