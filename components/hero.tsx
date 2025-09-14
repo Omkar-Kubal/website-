@@ -18,7 +18,7 @@ export function Hero() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat parallax-layer"
         style={{
-          backgroundImage: `url('/shop-clothing-clothes-shop-hanger-modern-shop-boutique_1150-8886.jpg')`,
+          backgroundImage: `url('/bgmain.jpg')`,
           transform: `translateY(${scrollY * 0.5}px) scale(${1 + scrollY * 0.0005})`,
         }}
       >
