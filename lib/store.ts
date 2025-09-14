@@ -41,6 +41,30 @@ export interface Review {
   verified: boolean
 }
 
+export interface Order {
+  id: string
+  date: Date
+  status: string
+  items: CartItem[]
+  total: number
+  subtotal: number
+  shipping: number
+  tax: number
+  shippingAddress: {
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+    address: string
+    apartment?: string
+    city: string
+    state: string
+    zipCode: string
+    country: string
+  }
+  paymentMethod: string
+}
+
 interface StoreState {
   // Cart
   cartItems: CartItem[]
@@ -86,6 +110,12 @@ interface StoreState {
   searchHistory: string[]
   addToSearchHistory: (query: string) => void
   clearSearchHistory: () => void
+
+  // Orders
+  orders: Order[]
+  createOrder: (orderData: Omit<Order, "id" | "date" | "status">) => string
+  getOrder: (orderId: string) => Order | undefined
+  getAllOrders: () => Order[]
 }
 
 export const useStore = create<StoreState>()(
@@ -263,11 +293,40 @@ export const useStore = create<StoreState>()(
       },
 
       clearSearchHistory: () => set({ searchHistory: [] }),
+
+      // Orders state
+      orders: [],
+
+      createOrder: (orderData) => {
+        const orderId = Math.random().toString(36).substr(2, 9);
+        const newOrder: Order = {
+          ...orderData,
+          id: orderId,
+          date: new Date(),
+          status: "Processing"
+        };
+        
+        set({
+          orders: [...get().orders, newOrder],
+          cartItems: [] // Clear cart after order is created
+        });
+        
+        return orderId;
+      },
+
+      getOrder: (orderId) => {
+        return get().orders.find(order => order.id === orderId);
+      },
+
+      getAllOrders: () => {
+        return get().orders;
+      },
     }),
     {
       name: "ecommerce-store",
       partialize: (state) => ({
         cartItems: state.cartItems,
+        orders: state.orders,
         wishlistItems: state.wishlistItems,
         closetItems: state.closetItems,
         compareItems: state.compareItems,
