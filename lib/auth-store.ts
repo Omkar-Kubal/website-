@@ -18,6 +18,7 @@ interface AuthState {
   isLoading: boolean
   login: (email: string, password: string) => Promise<boolean>
   signup: (name: string, email: string, password: string) => Promise<boolean>
+  loginWithGoogle: () => Promise<boolean>
   logout: () => void
   updateProfile: (updates: Partial<User>) => void
   isAdmin: () => boolean
@@ -30,7 +31,76 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isAuthenticated: false,
       isLoading: false,
-
+      loginWithGoogle: async () => {
+        set({ isLoading: true });
+        try {
+          const { auth } = await import("./firebase");
+          const { GoogleAuthProvider, signInWithPopup } = await import("firebase/auth");
+          
+          // Check if Firebase is properly initialized
+          if (!auth) {
+            console.error("Firebase auth is not initialized");
+            set({ isLoading: false });
+            return false;
+          }
+          
+          const provider = new GoogleAuthProvider();
+          
+          // Add client ID from environment variables
+          const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+          if (clientId) {
+            provider.setCustomParameters({
+              'client_id': clientId
+            });
+          } else {
+            console.warn("Google Client ID not found in environment variables");
+          }
+          
+          // Add scopes for better user profile access
+          provider.addScope('email');
+          provider.addScope('profile');
+          
+          console.log("Attempting Google sign-in with configured client ID...");
+          const result = await signInWithPopup(auth, provider);
+          const user = result.user;
+          
+          console.log("Google sign-in successful", user.uid);
+          set({
+            user: {
+              id: user.uid,
+              email: user.email || "",
+              name: user.displayName || "",
+              avatar: user.photoURL || undefined,
+              createdAt: user.metadata.creationTime || new Date().toISOString(),
+              role: "user",
+            },
+            isAuthenticated: true,
+            isLoading: false,
+          });
+          return true;
+        } catch (error: any) {
+          // Log detailed error information
+          console.error("Google sign-in error:", error);
+          console.error("Error code:", error.code);
+          console.error("Error message:", error.message);
+          
+          // Check for specific error types
+          if (error.code === 'auth/popup-blocked') {
+            console.error("Popup was blocked by the browser");
+          } else if (error.code === 'auth/popup-closed-by-user') {
+            console.error("Popup was closed by the user");
+          } else if (error.code === 'auth/cancelled-popup-request') {
+            console.error("Popup request was cancelled");
+          } else if (error.code === 'auth/network-request-failed') {
+            console.error("Network request failed");
+          } else if (error.code === 'auth/configuration-not-found') {
+            console.error("Firebase OAuth configuration is missing or incorrect");
+          }
+          
+          set({ isLoading: false });
+          return false;
+        }
+      },
       login: async (email: string, password: string) => {
         set({ isLoading: true })
 
